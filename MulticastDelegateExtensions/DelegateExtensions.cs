@@ -6,6 +6,7 @@
 
 	public static class DelegateExtensions
 	{
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "This function is designed to allow all delegates in a list to be invoked. It rethrows any exception afterwards.")]
 		private static IEnumerable<object> SafeInvoke(this Delegate del, params object[] args)
 		{
 			var exceptions = new List<Exception>();
@@ -72,8 +73,8 @@
 		public static IEnumerable<TResult> InvokeAll<T, TResult>(this IEnumerable<Func<T, TResult>> functions, T t) => functions.InvokeAllDelegates<TResult>(t);
 		public static IEnumerable<TResult> InvokeAll<TResult>(this IEnumerable<Func<TResult>> functions) => functions.InvokeAllDelegates<TResult>();
 
-		public static void InvokeAll(this EventHandler eventHandler, object sender, EventArgs eventArgs) => eventHandler.SafeInvoke(sender, eventArgs);
-		public static void InvokeAll<TEventArgs>(this EventHandler<TEventArgs> eventHandler, object sender, TEventArgs eventArgs) where TEventArgs : EventArgs => eventHandler.SafeInvoke(sender, eventArgs);
+		public static void InvokeAll(this EventHandler eventHandler, object sender, EventArgs eventArgs) => eventHandler?.SafeInvoke(sender, eventArgs);
+		public static void InvokeAll<TEventArgs>(this EventHandler<TEventArgs> eventHandler, object sender, TEventArgs eventArgs) where TEventArgs : EventArgs => eventHandler?.SafeInvoke(sender, eventArgs);
 
 		public static IEnumerable<bool> InvokeAll<T>(this IEnumerable<Predicate<T>> predicates, T t) => predicates.InvokeAllDelegates<bool>(t);
 	}

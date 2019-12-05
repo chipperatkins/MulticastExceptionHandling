@@ -28,7 +28,8 @@ namespace TestConsole
             {
                 RunA,
                 RunA1,
-                RunA2
+                RunA2,
+                null
             };
 
             try
